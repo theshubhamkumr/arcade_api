@@ -38,7 +38,7 @@ export function HomePage() {
           <div className="container px-4 sm:px-6 lg:px-8 relative z-10 mx-auto">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div
-                className="px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-xs font-medium transition-all duration-300 ease-in-out relative overflow-hidden transform hover:scale-105 hover:shadow-lg"
+                className="px-3 sm:px-3 py-1 sm:py-1 rounded-full text-xs sm:text-xs font-medium transition-all duration-300 ease-in-out relative overflow-hidden transform hover:scale-105 hover:shadow-lg"
                 style={{
                   background: 'linear-gradient(white, white) padding-box, linear-gradient(to right, #3b82f6, #8b5cf6) border-box',
                   border: '2px solid transparent',
