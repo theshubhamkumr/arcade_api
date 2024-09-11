@@ -1,44 +1,73 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Zap, Puzzle, Users, Code, Gauge, Shield, Check } from "lucide-react"
 import Footer from './footer'
 import { motion } from 'framer-motion'
 
-const FloatingStars = () => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    {[...Array(50)].map((_, i) => (
-      <div
-        key={i}
-        className="absolute bg-blue-500 opacity-30"
-        style={{
-          top: `${Math.random() * 100}%`,
-          left: `${Math.random() * 100}%`,
-          width: `${Math.random() * 4 + 2}px`,
-          height: `${Math.random() * 4 + 2}px`,
-          borderRadius: '50%',
-          boxShadow: '0 0 8px 3px rgba(59, 130, 246, 0.7)',
-          animation: `twinkle ${Math.random() * 3 + 2}s ease-in-out infinite alternate, float ${Math.random() * 10 + 5}s linear infinite`,
-        }}
-      />
-    ))}
-  </div>
-)
-
 export function HomePage() {
   const [email, setEmail] = useState('')
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+      drawGrid(ctx)
+    }
+
+    const drawGrid = (ctx: CanvasRenderingContext2D) => {
+      ctx.strokeStyle = 'rgba(59, 130, 246, 0.08)'
+      ctx.lineWidth = 1
+
+      const cellSize = 30
+      const cols = Math.ceil(canvas.width / cellSize)
+      const rows = Math.ceil(canvas.height / cellSize)
+
+      for (let i = 0; i <= cols; i++) {
+        ctx.beginPath()
+        ctx.moveTo(i * cellSize, 0)
+        ctx.lineTo(i * cellSize, canvas.height)
+        ctx.stroke()
+      }
+
+      for (let i = 0; i <= rows; i++) {
+        ctx.beginPath()
+        ctx.moveTo(0, i * cellSize)
+        ctx.lineTo(canvas.width, i * cellSize)
+        ctx.stroke()
+      }
+    }
+
+    resizeCanvas()
+    window.addEventListener('resize', resizeCanvas)
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas)
+    }
+  }, [])
 
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1 flex flex-col items-center justify-center">
         <section className="w-full py-8 sm:py-12 md:py-24 lg:py-32 xl:py-48 relative overflow-hidden bg-gray-50">
-          <FloatingStars />
+          <canvas
+            ref={canvasRef}
+            className="absolute inset-0 pointer-events-none"
+            style={{ zIndex: 0 }}
+          />
           <div className="container px-4 sm:px-6 lg:px-8 relative z-10 mx-auto">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div
-                className="px-3 sm:px-3 py-1 sm:py-1 rounded-full text-xs sm:text-xs font-medium transition-all duration-300 ease-in-out relative overflow-hidden transform hover:scale-105 hover:shadow-lg"
+                className="px-2 sm:px-2 py-1 sm:py-1 rounded-full text-xs sm:text-xs font-medium transition-all duration-300 ease-in-out relative overflow-hidden transform hover:scale-105 hover:shadow-lg"
                 style={{
                   background: 'linear-gradient(white, white) padding-box, linear-gradient(to right, #3b82f6, #8b5cf6) border-box',
                   border: '2px solid transparent',
@@ -50,7 +79,7 @@ export function HomePage() {
               </div>
               <div className="space-y-2 sm:space-y-4">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-zinc-900 tracking-wider">
-                  An <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text bg-300% animate-gradient">API</span> that Level Up 🚀Your User Experience
+                  An <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text bg-300% animate-gradient">API</span> that Level Up 🚀 Your User Experience
                 </h1>
                 <p className="mx-auto max-w-[700px] text-sm sm:text-base md:text-lg lg:text-xl text-zinc-800">
                   Integrate exciting mini-games into your web or mobile app with just a few lines of code. Boost user engagement and retention effortlessly.
