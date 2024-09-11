@@ -15,6 +15,8 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+
+
 export const metadata: Metadata = {
   title: "Arcade API",
   description: "Explore classic arcade games and their APIs",
