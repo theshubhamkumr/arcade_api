@@ -1,13 +1,15 @@
 'use client'
 
+import React from 'react';
 import { useState, useEffect, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Footer from './footer'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Roboto_Mono } from 'next/font/google'
+import { Roboto_Mono, Poppins } from 'next/font/google'
 
 const robotoMono = Roboto_Mono({ subsets: ['latin'] })
+const poppins = Poppins({ weight: ['400', '500', '600'], subsets: ['latin'] })
 
 export function HomePage() {
   const [email, setEmail] = useState('')
@@ -19,24 +21,25 @@ export function HomePage() {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    const container = containerRef.current
-    if (!canvas || !container) return
+    if (!canvas) return
 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
     const resizeCanvas = () => {
-      const containerRect = container.getBoundingClientRect()
-      canvas.width = containerRect.width
-      canvas.height = containerRect.height
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
       drawGrid(ctx)
     }
 
     const drawGrid = (ctx: CanvasRenderingContext2D) => {
-      ctx.strokeStyle = 'rgba(59, 130, 246, 0.05)'
+      ctx.fillStyle = '#F9FAFB' // bg-gray-50 color
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      ctx.strokeStyle = 'rgba(59, 130, 246, 0.08)'
       ctx.lineWidth = 1
 
-      const cellSize = 30
+      const cellSize = 50
       const cols = Math.ceil(canvas.width / cellSize)
       const rows = Math.ceil(canvas.height / cellSize)
 
@@ -73,10 +76,10 @@ export function HomePage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className={`flex flex-col ${poppins.className}`}>
       <main className="flex-1 flex flex-col">
-        <section className="w-full py-12 sm:py-16 md:py-20 lg:py-24 xl:py-32 relative overflow-hidden bg-gray-50">
-          <div ref={containerRef} className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <section className="w-full py-40 sm:py-40 md:py-32 lg:py-28 xl:py-40 relative overflow-hidden bg-gray-50">
+          <div ref={containerRef} className="mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50">
             <canvas
               ref={canvasRef}
               className="absolute inset-0 pointer-events-none"
@@ -102,9 +105,7 @@ export function HomePage() {
                         exit={{ opacity: 0 }}
                         className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text font-medium text-transparent block"
                       >
-                        ✨ Introducing
-                        <br />
-                        Arcade API
+                        ✨ Introducing Arcade API
                       </motion.span>
                     ) : (
                       <motion.span
@@ -120,10 +121,10 @@ export function HomePage() {
                   </AnimatePresence>
                 </motion.div>
                 <div className="space-y-4 sm:space-y-6">
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 tracking-wider leading-tight">
-                    An <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text bg-300% animate-gradient">API</span> that Level Up 🚀 Your User Experience
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 tracking-wider leading-tight" style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}>
+                    An 💻<span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text bg-300% animate-gradient">API</span> that Level Up 🚀 Your User<br />Experience through <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text bg-300% animate-gradient">Games </span>🕹️
                   </h1>
-                  <p className="mx-auto max-w-[700px] text-base sm:text-lg md:text-xl lg:text-2xl text-zinc-800">
+                  <p className="mx-auto max-w-[850px] text-base sm:text-lg md:text-xl lg:text-2xl text-zinc-700">
                     Integrate exciting mini-games into your web or mobile app with just a few lines of code. Boost user engagement and retention effortlessly.
                   </p>
                 </div>
@@ -154,43 +155,44 @@ export function HomePage() {
           </div>
         </section>
         
-        <section id="features" className="w-full py-16 sm:py-20 md:py-24 lg:py-32 bg-white">
+        <section id="features" className="w-full py-16 sm:py-20 md:py-24 lg:py-32 bg-gray-50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row gap-8 sm:gap-12 md:gap-16">
               <div className="md:w-1/3">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 sticky top-8">Why Choose Arcade API?</h2>
+                <h2 className="text-2xl mb-4 sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 sticky top-9">Key Features of Arcade API</h2>
+                <p className={`${poppins.className} text-lg sm:text-xl text-gray-600 sticky top-36`}>Fun-sized Games, Great User Experience: Integrate mini-games into your app with ease.</p>
               </div>
               <div className="md:w-2/3">
                 <div className="space-y-12 sm:space-y-16 md:space-y-20">
                   <FeatureItem
                     number="01"
-                    title="Lightning-Fast Integration"
-                    description="Get your games up and running in minutes, not hours. Our API is designed for quick and easy implementation."
+                    title="Rapid Integration"
+                    description="Implement games in your app within minutes using our streamlined API and comprehensive documentation."
                   />
                   <FeatureItem
                     number="02"
-                    title="Endless Possibilities"
-                    description="A vast library of games to suit every app and audience. From casual to competitive, we've got you covered."
+                    title="Diverse Game Library"
+                    description="Access a wide range of games suitable for various app types and user preferences, from casual to competitive."
                   />
                   <FeatureItem
                     number="03"
-                    title="Skyrocket Engagement"
-                    description="Keep users coming back with addictive gameplay. Our games are designed to boost retention and user satisfaction."
+                    title="Enhanced User Engagement"
+                    description="Increase user retention and satisfaction with engaging gameplay elements designed to keep users coming back."
                   />
                   <FeatureItem
                     number="04"
-                    title="Developer-Friendly"
-                    description="Clean, intuitive API that's a joy to work with. Comprehensive documentation and support to make integration a breeze."
+                    title="Developer-Centric Design"
+                    description="Benefit from our well-documented, intuitive API and dedicated support to ensure smooth integration and development."
                   />
                   <FeatureItem
                     number="05"
-                    title="Blazing Performance"
-                    description="Optimized for speed on all devices and platforms. Ensure smooth gameplay for all your users, regardless of their device."
+                    title="Optimized Performance"
+                    description="Enjoy fast, responsive gameplay across all devices and platforms, ensuring a seamless user experience."
                   />
                   <FeatureItem
                     number="06"
-                    title="Rock-Solid Security"
-                    description="Built-in protections to keep your users safe. We prioritize security to protect your app and your users' data."
+                    title="Robust Security Measures"
+                    description="Protect your app and user data with our built-in security features and regular updates."
                   />
                 </div>
               </div>
@@ -248,7 +250,6 @@ export function HomePage() {
             </div>
           </div>
         </section>
-
         <section id="subscribe" className="w-full py-16 sm:py-20 md:py-24 lg:py-32 bg-white relative">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center space-y-6 sm:space-y-8 text-center">

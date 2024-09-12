@@ -17,9 +17,25 @@ const config: Config = {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		keyframes: {
+  			'pulse-glow': {
+  				'0%, 100%': { 
+  					opacity: '0.5',
+  					boxShadow: '0 0 2px #3b82f6'
+  				},
+  				'50%': { 
+  					opacity: '1',
+  					boxShadow: '0 0 15px #3b82f6'
+  				},
+  			}
+  		},
+  		animation: {
+  			'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  variants: {},
+  plugins: [],
 };
 export default config;

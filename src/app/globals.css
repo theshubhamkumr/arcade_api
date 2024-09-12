@@ -31,3 +31,17 @@ body {
     --radius: 0.5rem;
   }
 }
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+    box-shadow: 0 0 2px #3b82f6;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 15px #3b82f6;
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
