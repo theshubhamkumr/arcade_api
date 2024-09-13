@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Home() {
   const [email, setEmail] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
-  const [showThankYou, setShowThankYou] = useState(false); // Added state to show thank you message
-  const [showError, setShowError] = useState(false); // Added state to show error message
+  const [showThankYou, setShowThankYou] = useState(false);
+  const [showError, setShowError] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -25,7 +25,7 @@ export default function Home() {
     }
 
     const drawGrid = (ctx: CanvasRenderingContext2D) => {
-      ctx.fillStyle = '#F9FAFB' // bg-gray-50 color
+      ctx.fillStyle = '#F9FAFB'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
       ctx.strokeStyle = 'rgba(59, 130, 246, 0.08)'
@@ -60,27 +60,22 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const email = (e.target as HTMLFormElement).email.value;
 
-    try {
-      const response = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }), // Send email in the request body
-      });
+    const res = await fetch('/api/waitlist', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
 
-      if (!response.ok) {
-        throw new Error('Failed to add email');
-      }
+    const data = await res.json();
 
-      setShowThankYou(true); // Show thank you message on success
-      setShowError(false); // Reset error state
-    } catch (error) {
-      if (error instanceof Error && error.message === 'Failed to add email') {
-        setShowError(true); // Show error message if email already exists
-      }
+    if (data.message === 'Email added to waitlist') {
+      setShowThankYou(true);
+      setShowError(false);
+    } else {
+      setShowError(true);
     }
   };
 
@@ -141,7 +136,7 @@ export default function Home() {
                       className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                       placeholder="Enter your email"
                       type="email"
-                      name="email" // Added name attribute
+                      name="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
