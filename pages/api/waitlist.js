@@ -22,7 +22,7 @@ export default async function handler(req, res) {
             }
 
             // Insert the new email
-            const result = await db.collection('waitlist').insertOne({ email });
+            const result = await db.collection('email').insertOne({ email });
 
             return res.status(201).json({ message: 'Email added to waitlist', result });
         } catch (error) {
